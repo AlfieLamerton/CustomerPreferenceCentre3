@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 import java.time.DayOfWeek;
-// import java.util.Scanner;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -62,6 +62,58 @@ public class App {
             System.out.println(customer.customerPreferences[i].givenDateSendEmail(correctDates[i]));
             System.out.println(customer.customerPreferences[i].givenDateSendEmail(incorrectDates[i]));
         }
+
+        /*
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("How many customers are there?");
+        int numOfCustomers = input.nextInt();
+
+        Customer [] customerList = new Customer[numOfCustomers];
+        
+        for (int i = 0; i < numOfCustomers; i++)
+        {
+            // This creates a new customer object for each customer for whom the system will be processing data
+            customerList[i] = new Customer();
+
+            input.nextLine();
+
+            // Set customer's name to the name entered by user
+            System.out.println("Enter customer name");
+            String name = input.nextLine();
+            customerList[i].name = name;
+
+            System.out.println("How would you like to set your preferences?\n 1) On a specific day of the month\n 2) On each specified day of the week\n 3) Every day\n 4) Never\n");
+            
+            int customerPreferenceType = input.nextInt();
+
+            if (customerPreferenceType == 1)
+            {
+                System.out.println("How many days of the month would you like to receive marketing info? (1-28)");
+                int numberOfDays = input.nextInt();
+                customerList[i].customerPreferences = new DayOfMonthPreference[numberOfDays];
+            }
+
+            else if (customerPreferenceType == 2)
+            {
+
+            }
+
+            else if (customerPreferenceType == 3)
+            {
+
+            }
+
+            else if (customerPreferenceType == 4)
+            {
+
+            }
+        }
+        
+        input.close();
+
+        */
         
     }
 }
