@@ -1,119 +1,129 @@
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.DayOfWeek;
 import java.util.Scanner;
+
+
+import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) throws Exception {
 
-        
-
-        /* Unit testing
-
-        // Arbitrary date to test (1st April 2018)
-        LocalDate dateToTest = LocalDate.of(2018, 4, 1);
-
-        //  Test for DayOfMonthPreference
-
-        int correctDayOfMonth = 1;
-        int incorrectDayOfMonth = 4;
-
-        // Should return true
-        DayOfMonthPreference DOMpreference1 = new DayOfMonthPreference(correctDayOfMonth);
-        System.out.println(DOMpreference1.givenDateSendEmail(dateToTest));
-
-        // Should return false
-        DayOfMonthPreference DOMpreference2 = new DayOfMonthPreference(incorrectDayOfMonth);
-        System.out.println(DOMpreference2.givenDateSendEmail(dateToTest));
-
-
-        //  Test for DayOfWeekPreference
-
-        DayOfWeek correctDayOfWeek = DayOfWeek.SUNDAY;
-        DayOfWeek incorrectDayOfWeek = DayOfWeek.MONDAY;
-
-        // Should return true
-        DayOfWeekPreference DOWpreference1 = new DayOfWeekPreference(correctDayOfWeek);
-        System.out.println(DOWpreference1.givenDateSendEmail(dateToTest));
-
-        // Should return false
-        DayOfWeekPreference DOWpreference2 = new DayOfWeekPreference(incorrectDayOfWeek);
-        System.out.println(DOWpreference2.givenDateSendEmail(dateToTest));
-
-        */
-
-        // Test for Customer.java and using methods
-
-        Customer customer = new Customer();
-
-        customer.name = "Joe";
-        customer.customerPreferences = new DayOfMonthPreference[5];
-
-        // create 5 dates that will return true for our customer's preferences
-        LocalDate [] correctDates = new LocalDate[5];
-
-        // create 5 dates that will return false for our customer's preferences
-        LocalDate [] incorrectDates = new LocalDate[5];
-
-        for (int i = 0; i < 5; i++) // this sets his preferred days of the month to the 1st-5th of the month
-        {
-            customer.customerPreferences[i] = new DayOfMonthPreference(i+1);
-            correctDates[i] = LocalDate.of(2018, 4, i + 1);
-            incorrectDates[i] = LocalDate.of(2018, 4, i + 5);
-            System.out.println(customer.customerPreferences[i].givenDateSendEmail(correctDates[i]));
-            System.out.println(customer.customerPreferences[i].givenDateSendEmail(incorrectDates[i]));
-        }
-
-        /*
-
         Scanner input = new Scanner(System.in);
 
         System.out.println("How many customers are there?");
-        int numOfCustomers = input.nextInt();
+        int numberOfCustomers = input.nextInt();
 
-        Customer [] customerList = new Customer[numOfCustomers];
-        
-        for (int i = 0; i < numOfCustomers; i++)
+        ArrayList<Customer> customerList = new ArrayList<Customer>(numberOfCustomers);
+
+        for (int i = 0; i < numberOfCustomers; i++)
         {
-            // This creates a new customer object for each customer for whom the system will be processing data
-            customerList[i] = new Customer();
+            customerList.add(new Customer());
 
             input.nextLine();
 
             // Set customer's name to the name entered by user
             System.out.println("Enter customer name");
-            String name = input.nextLine();
-            customerList[i].name = name;
+            customerList.get(i).name = input.nextLine();
 
             System.out.println("How would you like to set your preferences?\n 1) On a specific day of the month\n 2) On each specified day of the week\n 3) Every day\n 4) Never\n");
-            
-            int customerPreferenceType = input.nextInt();
 
-            if (customerPreferenceType == 1)
+            int customerOption = input.nextInt();
+
+            if (customerOption == 1) // Days of month
             {
                 System.out.println("How many days of the month would you like to receive marketing info? (1-28)");
                 int numberOfDays = input.nextInt();
-                customerList[i].customerPreferences = new DayOfMonthPreference[numberOfDays];
+
+                System.out.println("Enter which days of the month you would like to receive marketing info: ");
+                for (int j = 0; j < numberOfDays; j++)
+                {
+                    customerList.get(i).addDayOfMonthPreference(input.nextInt());
+                }
             }
 
-            else if (customerPreferenceType == 2)
-            {
+            // else if (customerOption == 2)
+            // {
+            //     System.out.println("How many days of the week would you like to receive marketing info? (1-7)");
+            //     int numberOfDays = input.nextInt();
 
-            }
+            //     System.out.println("Enter which days of the week you would like to receive marketing info: e.g. MONDAY");
+            //     for (int j = 0; j < numberOfDays; j++) // Getting an array out of bounds exception when this tries to run
+            //     {
+            //         String dayAsString = input.nextLine();
+            //         int dayAsInteger = getIntegerValue(dayAsString);
 
-            else if (customerPreferenceType == 3)
-            {
-
-            }
-
-            else if (customerPreferenceType == 4)
-            {
-
-            }
+            //         if (dayAsInteger != 0)
+            //         {
+            //             customerList.get(i).addDayOfWeekPreference(dayAsInteger);
+            //         }
+            //     }
+            // }
         }
-        
+
         input.close();
 
-        */
-        
+        // Make comparisons
+
+        Report [] cpcReport = new Report[90];
+
+        int dayOfYearCounter = 91;
+
+        for (int i = 0; i < cpcReport.length; i++) // For each date
+        {
+            /* Compare customer preferences with dates */
+            LocalDate dateToCompare = LocalDate.ofYearDay(2018, dayOfYearCounter); // Creates a LocalDate for the date on each iteration
+            cpcReport[i] = new Report(dateToCompare);
+
+            for (int j = 0; j < numberOfCustomers; j++) // For each customer
+            {
+                for (int k = 0; k < customerList.get(j).customerPreferences.size(); k++) // For each of a given customer's preferences
+                {
+                    boolean isPreferenceSet = customerList.get(j).customerPreferences.get(k).givenDateSendEmail(dateToCompare); // returns true or false
+                    if (isPreferenceSet == true) cpcReport[i].customersForDate.add(customerList.get(j).name); // If true, adds the customer's name to the report
+                }
+            }
+
+            /* Produce report */
+            System.out.print(cpcReport[i].date + "  "); // Output the current date
+
+            for (int j = 0; j < cpcReport[i].customersForDate.size(); j++)
+            {
+                System.out.print(cpcReport[i].customersForDate.get(j) + " "); // Output the customers for this date
+            }
+            System.out.print("\n");
+
+            dayOfYearCounter++;
+        }
     }
+
+    // public static int getIntegerValue(String dayAsString)
+    // {
+    //     switch (dayAsString)
+    //     {
+    //         case "mon":
+    //         return 1;
+            
+    //         case "tue":
+    //         return 2;
+
+    //         case "wed":
+    //         return 3;
+
+    //         case "thu":
+    //         return 4;
+
+    //         case "fri":
+    //         return 5;
+
+    //         case "sat":
+    //         return 6;
+
+    //         case "sun":
+    //         return 7;
+
+    //         default:
+    //         return 0;
+    //     }
+    // }
 }
