@@ -1,20 +1,18 @@
 import java.util.ArrayList;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 
 public class Customer {
     
     public  String name;
-    ArrayList<Preference> customerPreferences = new ArrayList<Preference>(0); // Initialises customerPreferences as an empty ArrayList
+    ArrayList<Preference> customerPreferences = new ArrayList<Preference>(0); // Initialises customerPreferences as an empty ArrayList in case it's never used
 
-    public void addDayOfMonthPreference(int newPreferenceMonth)
+    public void addDayOfMonthPreference(int newPreferenceForMonth)
     {
-        this.customerPreferences.add(new DayOfMonthPreference(newPreferenceMonth));
+        this.customerPreferences.add(new DayOfMonthPreference(newPreferenceForMonth));
     }
 
-    public void addDayOfWeekPreference(int newPreferenceWeek)
+    public void addDayOfWeekPreference(int newPreferenceForWeek)
     {
-        this.customerPreferences.add(new DayOfWeekPreference(DayOfWeek.of(newPreferenceWeek)));
-        System.out.println(DayOfWeek.of(newPreferenceWeek));
+        this.customerPreferences.add(new DayOfWeekPreference(DayOfWeek.of(newPreferenceForWeek)));
     }
 }
