@@ -74,6 +74,9 @@ public class App {
         // calendar time, and change the size of the prefCentreReport array to cover different ranges of time.
         int dayOfYearCounter = 91;
 
+
+        /* Compare preferences and produce report */
+
         for (int i = 0; i < prefCentreReport.length; i++) // For each date
         {
             /* Compare customer preferences with dates */
