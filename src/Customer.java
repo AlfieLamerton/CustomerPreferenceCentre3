@@ -15,4 +15,9 @@ public class Customer {
     {
         this.customerPreferences.add(new DayOfWeekPreference(DayOfWeek.of(newPreferenceForWeek)));
     }
+
+    public void setAlwaysOrNeverPreference(int customerOption)
+    {
+        this.customerPreferences.add(new AlwaysOrNeverPreference(customerOption));
+    }
 }
